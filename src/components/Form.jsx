@@ -18,6 +18,7 @@ class Form extends Component {
 
     return (
       <form>
+        {hasTrunfo}
         <label htmlFor="cardName">
           Nome da Carta
           <input
