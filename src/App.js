@@ -17,8 +17,35 @@ class App extends React.Component {
       cardRare: '',
       cardTrunfo: false,
       hasTrunfo: false,
-      isSaveButtonDisabled: false,
+      isSaveButtonDisabled: true,
     };
+  }
+
+  validateSaveButton = () => {
+    const { cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage } = this.state;
+
+    const minValue = 0;
+    const maxValue = 90;
+    const totalLimit = 210;
+
+    const invalidationElements = [
+      !cardName.length,
+      !cardDescription.length,
+      (cardAttr1 > maxValue || cardAttr1 < minValue || !cardAttr1),
+      (cardAttr2 > maxValue || cardAttr2 < minValue || !cardAttr2),
+      (cardAttr3 > maxValue || cardAttr3 < minValue || !cardAttr3),
+      ((Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3)) > totalLimit),
+      !cardImage.length,
+    ];
+
+    this.setState({
+      isSaveButtonDisabled: !(invalidationElements.every((e) => e === false)),
+    });
   }
 
   onInputChange = ({ target }) => {
@@ -26,8 +53,13 @@ class App extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState({
       [name]: value,
-    });
+    }, () => { this.validateSaveButton(); });
   };
+
+  onSaveButtonClick = (event) => {
+    event.preventDefault();
+    console.log('FOI!');
+  }
 
   render() {
     const { cardName,
@@ -56,6 +88,7 @@ class App extends React.Component {
           hasTrunfo={ hasTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
+          onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card
           cardName={ cardName }
@@ -67,6 +100,9 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+        { isSaveButtonDisabled
+          ? <span style={ { color: 'red' } }>Preencha todos os campos</span>
+          : <span style={ { color: 'green' } }>Todos campos foram preenchidos</span> }
       </div>
     );
   }
