@@ -13,21 +13,21 @@ class Card extends Component {
       cardTrunfo } = this.props;
 
     return (
-      <section>
-        <section className="cardLayout">
+      <section className="card-background">
+        <section className="card-layout">
           <h1 data-testid="name-card">{ cardName }</h1>
           <img data-testid="image-card" src={ cardImage } alt={ cardName } />
           <span data-testid="description-card">
             {cardDescription}
           </span>
-          <section className="cardAttributes">
+          <section className="card-attributes">
             <span data-testid="attr1-card">{cardAttr1}</span>
             <span data-testid="attr2-card">{cardAttr2}</span>
             <span data-testid="attr3-card">{cardAttr3}</span>
           </section>
+          <span data-testid="rare-card">{cardRare}</span>
+          { cardTrunfo ? <span data-testid="trunfo-card">Super Trunfo</span> : '' }
         </section>
-        <span data-testid="rare-card">{cardRare}</span>
-        { cardTrunfo ? <span data-testid="trunfo-card">Super Trunfo</span> : '' }
       </section>
     );
   }

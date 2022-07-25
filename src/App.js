@@ -57,8 +57,13 @@ class App extends React.Component {
   };
 
   onSaveButtonClick = (event) => {
+    const { cardTrunfo, hasTrunfo } = this.state;
     event.preventDefault();
-    // console.log('FOI!');
+
+    if (cardTrunfo && !hasTrunfo) {
+      this.setState({ hasTrunfo: true });
+    } else this.setState({ hasTrunfo: false });
+
     this.setState({
       cardName: '',
       cardDescription: '',
@@ -67,6 +72,7 @@ class App extends React.Component {
       cardAttr3: 0,
       cardImage: '',
       cardRare: 'normal',
+      cardTrunfo: false,
     });
   }
 
@@ -83,7 +89,7 @@ class App extends React.Component {
       isSaveButtonDisabled } = this.state;
 
     return (
-      <div>
+      <div className="main-content">
         <h1>Tryunfo</h1>
         <Form
           cardName={ cardName }
@@ -99,6 +105,9 @@ class App extends React.Component {
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.onSaveButtonClick }
         />
+        { isSaveButtonDisabled
+          ? <span style={ { color: 'red' } }>Preencha todos os campos</span>
+          : <span style={ { color: 'green' } }>Todos campos foram preenchidos</span> }
         <Card
           cardName={ cardName }
           cardDescription={ cardDescription }
@@ -109,9 +118,6 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
-        { isSaveButtonDisabled
-          ? <span style={ { color: 'red' } }>Preencha todos os campos</span>
-          : <span style={ { color: 'green' } }>Todos campos foram preenchidos</span> }
       </div>
     );
   }

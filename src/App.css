@@ -1,11 +1,22 @@
-/* .App {
+.main-content {
   display: flex;
-  flex-direction: row;
-} */
+  flex-direction: column;
+}
 
 form {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 100%;
 }
 
+.card-background {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card-layout {
+  display: flex;
+  flex-direction: column;
+  background-color: green;
+}

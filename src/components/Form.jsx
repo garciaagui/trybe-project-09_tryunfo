@@ -18,7 +18,6 @@ class Form extends Component {
 
     return (
       <form>
-        {hasTrunfo}
         <label htmlFor="cardName">
           Nome da Carta
           <input
@@ -98,16 +97,18 @@ class Form extends Component {
           </select>
         </label>
 
-        <label htmlFor="cardTrunfo">
-          É Super Tryunfo?
-          <input
-            type="checkbox"
-            data-testid="trunfo-input"
-            name="cardTrunfo"
-            checked={ cardTrunfo }
-            onChange={ onInputChange }
-          />
-        </label>
+        {!hasTrunfo ? (
+          <label htmlFor="cardTrunfo">
+            Super Trunfo
+            <input
+              type="checkbox"
+              data-testid="trunfo-input"
+              name="cardTrunfo"
+              checked={ cardTrunfo }
+              onChange={ onInputChange }
+            />
+          </label>
+        ) : 'Você já tem um Super Trunfo em seu baralho'}
 
         <button
           type="submit"
