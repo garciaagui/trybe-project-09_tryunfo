@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Form from './components/Form';
+import Card from './components/Card';
 
 class App extends React.Component {
   // constructor() {
@@ -25,6 +26,7 @@ class App extends React.Component {
       <div>
         <h1>Tryunfo</h1>
         <Form />
+        <Card />
       </div>
     );
   }
