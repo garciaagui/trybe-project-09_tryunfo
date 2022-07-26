@@ -16,7 +16,7 @@ form {
 }
 
 .card-layout {
+  background-color: green;
   display: flex;
   flex-direction: column;
-  background-color: green;
 }

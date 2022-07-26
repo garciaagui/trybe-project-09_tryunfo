@@ -18,6 +18,7 @@ class App extends React.Component {
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
+      cardCollection: [],
     };
   }
 
@@ -56,6 +57,32 @@ class App extends React.Component {
     }, () => { this.validateSaveButton(); });
   };
 
+  addCardToCollection = () => {
+    const { cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo } = this.state;
+
+    const obj = {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+    };
+
+    this.setState((prevState) => ({
+      cardCollection: [...prevState.cardCollection, obj],
+    }));
+  }
+
   onSaveButtonClick = (event) => {
     const { cardTrunfo, hasTrunfo } = this.state;
     event.preventDefault();
@@ -63,6 +90,8 @@ class App extends React.Component {
     if (cardTrunfo && !hasTrunfo) {
       this.setState({ hasTrunfo: true });
     } else this.setState({ hasTrunfo: false });
+
+    this.addCardToCollection();
 
     this.setState({
       cardName: '',
@@ -86,7 +115,8 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
       hasTrunfo,
-      isSaveButtonDisabled } = this.state;
+      isSaveButtonDisabled,
+      cardCollection } = this.state;
 
     return (
       <div className="main-content">
@@ -118,6 +148,20 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+
+        <section className="cardCollection">
+          {cardCollection.map((card, index) => (<Card
+            key={ index + card.cardName }
+            cardName={ card.cardName }
+            cardDescription={ card.cardDescription }
+            cardAttr1={ card.cardAttr1 }
+            cardAttr2={ card.cardAttr2 }
+            cardAttr3={ card.cardAttr3 }
+            cardImage={ card.cardImage }
+            cardRare={ card.cardRare }
+            cardTrunfo={ card.cardTrunfo }
+          />))}
+        </section>
       </div>
     );
   }
