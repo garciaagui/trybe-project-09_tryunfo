@@ -15,8 +15,16 @@ form {
   width: 100%;
 }
 
-.card-layout {
+.card-background {
   background-color: green;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.card-collection {
+  color: red;
+  background-color: black;
   display: flex;
   flex-direction: column;
 }

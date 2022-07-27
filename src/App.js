@@ -10,9 +10,9 @@ class App extends React.Component {
     this.state = {
       cardName: '',
       cardDescription: '',
-      cardAttr1: 0,
-      cardAttr2: 0,
-      cardAttr3: 0,
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
@@ -83,6 +83,20 @@ class App extends React.Component {
     }));
   }
 
+  deleteCard = ({ target }) => {
+    const location = Array.from(target.parentElement.parentElement.children)
+      .indexOf(target.parentElement);
+    this.setState((prevState) => ({
+      cardCollection: [...prevState.cardCollection]
+        .filter((_, index) => index !== location),
+    }), () => {
+      const { cardCollection } = this.state;
+      this.setState({
+        hasTrunfo: cardCollection.some((card) => card.cardTrunfo),
+      });
+    });
+  }
+
   onSaveButtonClick = (event) => {
     const { cardTrunfo, hasTrunfo } = this.state;
     event.preventDefault();
@@ -96,9 +110,9 @@ class App extends React.Component {
     this.setState({
       cardName: '',
       cardDescription: '',
-      cardAttr1: 0,
-      cardAttr2: 0,
-      cardAttr3: 0,
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
@@ -138,29 +152,34 @@ class App extends React.Component {
         { isSaveButtonDisabled
           ? <span style={ { color: 'red' } }>Preencha todos os campos</span>
           : <span style={ { color: 'green' } }>Todos campos foram preenchidos</span> }
-        <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-        />
-
-        <section className="cardCollection">
-          {cardCollection.map((card, index) => (<Card
-            key={ index + card.cardName }
-            cardName={ card.cardName }
-            cardDescription={ card.cardDescription }
-            cardAttr1={ card.cardAttr1 }
-            cardAttr2={ card.cardAttr2 }
-            cardAttr3={ card.cardAttr3 }
-            cardImage={ card.cardImage }
-            cardRare={ card.cardRare }
-            cardTrunfo={ card.cardTrunfo }
-          />))}
+        <section className="card-background">
+          <Card
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+          />
+        </section>
+        <section className="card-collection">
+          {cardCollection ? (
+            cardCollection.map((card, index) => (
+              <Card
+                key={ index + card.cardName }
+                cardName={ card.cardName }
+                cardDescription={ card.cardDescription }
+                cardAttr1={ card.cardAttr1 }
+                cardAttr2={ card.cardAttr2 }
+                cardAttr3={ card.cardAttr3 }
+                cardImage={ card.cardImage }
+                cardRare={ card.cardRare }
+                cardTrunfo={ card.cardTrunfo }
+                deleteCard={ this.deleteCard }
+              />
+            ))) : ''}
         </section>
       </div>
     );

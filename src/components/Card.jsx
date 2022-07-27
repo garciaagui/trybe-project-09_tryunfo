@@ -10,38 +10,50 @@ class Card extends Component {
       cardAttr3,
       cardImage,
       cardRare,
-      cardTrunfo } = this.props;
+      cardTrunfo,
+      deleteCard } = this.props;
 
     return (
-      <section className="card-background">
-        <section className="card-layout">
-          <h1 data-testid="name-card">{ cardName }</h1>
-          <img data-testid="image-card" src={ cardImage } alt={ cardName } />
-          <span data-testid="description-card">
-            {cardDescription}
-          </span>
-          <section className="card-attributes">
-            <span data-testid="attr1-card">{cardAttr1}</span>
-            <span data-testid="attr2-card">{cardAttr2}</span>
-            <span data-testid="attr3-card">{cardAttr3}</span>
-          </section>
-          <span data-testid="rare-card">{cardRare}</span>
-          { cardTrunfo ? <span data-testid="trunfo-card">Super Trunfo</span> : '' }
+      <section className="card-layout">
+        <h1 data-testid="name-card">{ cardName }</h1>
+        <img data-testid="image-card" src={ cardImage } alt={ cardName } />
+        <span data-testid="description-card">
+          {cardDescription}
+        </span>
+        <section className="card-attributes">
+          <span data-testid="attr1-card">{cardAttr1}</span>
+          <span data-testid="attr2-card">{cardAttr2}</span>
+          <span data-testid="attr3-card">{cardAttr3}</span>
         </section>
+        <span data-testid="rare-card">{cardRare}</span>
+        { cardTrunfo ? <span data-testid="trunfo-card">Super Trunfo</span> : '' }
+        { deleteCard ? (
+          <button
+            type="button"
+            data-testid="delete-button"
+            onClick={ deleteCard }
+          >
+            Excluir
+          </button>) : ''}
       </section>
     );
   }
 }
 
 Card.propTypes = {
-  cardName: PropTypes.string,
-  cardDescription: PropTypes.string,
-  cardAttr1: PropTypes.string,
-  cardAttr2: PropTypes.string,
-  cardAttr3: PropTypes.string,
-  cardImage: PropTypes.string,
-  cardRare: PropTypes.string,
-  cardTrunfo: PropTypes.bool,
-}.isRequired;
+  cardName: PropTypes.string.isRequired,
+  cardDescription: PropTypes.string.isRequired,
+  cardAttr1: PropTypes.string.isRequired,
+  cardAttr2: PropTypes.string.isRequired,
+  cardAttr3: PropTypes.string.isRequired,
+  cardImage: PropTypes.string.isRequired,
+  cardRare: PropTypes.string.isRequired,
+  cardTrunfo: PropTypes.bool.isRequired,
+  deleteCard: PropTypes.func,
+};
+
+Card.defaultProps = {
+  deleteCard: undefined,
+};
 
 export default Card;
