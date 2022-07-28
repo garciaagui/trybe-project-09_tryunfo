@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Form from './components/Form';
 import Card from './components/Card';
+import Filter from './components/Filter';
 
 class App extends React.Component {
   constructor() {
@@ -19,6 +20,7 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       cardCollection: [],
+      filterName: '',
     };
   }
 
@@ -97,9 +99,9 @@ class App extends React.Component {
     });
   }
 
-  onSaveButtonClick = (event) => {
+  onSaveButtonClick = (e) => {
     const { cardTrunfo, hasTrunfo } = this.state;
-    event.preventDefault();
+    e.preventDefault();
 
     if (cardTrunfo && !hasTrunfo) {
       this.setState({ hasTrunfo: true });
@@ -116,7 +118,15 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
+      isSaveButtonDisabled: true,
     });
+  }
+
+  filterCollection = () => {
+    const { cardCollection, filterName } = this.state;
+    if (!filterName.length) return cardCollection;
+    return cardCollection.filter((card) => (
+      card.cardName.toUpperCase()).includes(filterName.toUpperCase()));
   }
 
   render() {
@@ -130,7 +140,8 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
-      cardCollection } = this.state;
+      cardCollection,
+      filterName } = this.state;
 
     return (
       <div className="main-content">
@@ -167,9 +178,11 @@ class App extends React.Component {
           />
         </section>
 
+        <Filter onInputChange={ this.onInputChange } filterName={ filterName } />
+
         <section className="card-collection">
           {cardCollection ? (
-            cardCollection.map((card, index) => (
+            this.filterCollection().map((card, index) => (
               <Card
                 key={ index + card.cardName }
                 cardName={ card.cardName }
