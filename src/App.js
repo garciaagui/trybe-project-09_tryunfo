@@ -21,6 +21,7 @@ class App extends React.Component {
       isSaveButtonDisabled: true,
       cardCollection: [],
       filterName: '',
+      filterRarity: 'todas',
     };
   }
 
@@ -122,11 +123,26 @@ class App extends React.Component {
     });
   }
 
-  filterCollection = () => {
-    const { cardCollection, filterName } = this.state;
-    if (!filterName.length) return cardCollection;
-    return cardCollection.filter((card) => (
+  filterByName = (array) => {
+    const { filterName } = this.state;
+    if (!filterName.length) return array;
+    return array.filter((card) => (
       card.cardName.toUpperCase()).includes(filterName.toUpperCase()));
+  }
+
+  filterByRarity = (array) => {
+    const { filterRarity } = this.state;
+    if (filterRarity === 'todas') return array;
+    return array.filter((card) => (
+      card.cardRare === filterRarity));
+  }
+
+  filterCollection = () => {
+    const { cardCollection, filterName, filterRarity } = this.state;
+    if (!filterName.length && filterRarity === 'todas') return cardCollection;
+    const filtered1 = this.filterByName(cardCollection);
+    const filtered2 = this.filterByRarity(filtered1);
+    return filtered2;
   }
 
   render() {
@@ -141,7 +157,8 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       cardCollection,
-      filterName } = this.state;
+      filterName,
+      filterRarity } = this.state;
 
     return (
       <div className="main-content">
@@ -178,7 +195,11 @@ class App extends React.Component {
           />
         </section>
 
-        <Filter onInputChange={ this.onInputChange } filterName={ filterName } />
+        <Filter
+          onInputChange={ this.onInputChange }
+          filterName={ filterName }
+          filterRarity={ filterRarity }
+        />
 
         <section className="card-collection">
           {cardCollection ? (

@@ -5,7 +5,8 @@ class Filter extends Component {
   render() {
     const {
       onInputChange,
-      filterName } = this.props;
+      filterName,
+      filterRarity } = this.props;
 
     return (
       <section className="container-filter">
@@ -22,6 +23,22 @@ class Filter extends Component {
             onChange={ onInputChange }
           />
         </label>
+
+        <label className="form-label" htmlFor="filterRarity">
+          <select
+            data-testid="rare-filter"
+            className="form-select"
+            name="filterRarity"
+            value={ filterRarity }
+            onChange={ onInputChange }
+          >
+            <option value="todas">todas</option>
+            <option value="normal">normal</option>
+            <option value="raro">raro</option>
+            <option value="muito raro">muito raro</option>
+          </select>
+        </label>
+
       </section>
     );
   }
