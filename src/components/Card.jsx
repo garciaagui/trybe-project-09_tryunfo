@@ -14,21 +14,27 @@ class Card extends Component {
       deleteCard } = this.props;
 
     return (
-      <section className="card-layout">
-        <h1 data-testid="name-card">{ cardName }</h1>
-        <img data-testid="image-card" src={ cardImage } alt={ cardName } />
-        <span data-testid="description-card">
-          {cardDescription}
-        </span>
-        <section className="card-attributes">
-          <span data-testid="attr1-card">{cardAttr1}</span>
-          <span data-testid="attr2-card">{cardAttr2}</span>
-          <span data-testid="attr3-card">{cardAttr3}</span>
+      <section className="card-button-container">
+        <section className="card-layout">
+          <h1 data-testid="name-card">{ cardName }</h1>
+          <img data-testid="image-card" src={ cardImage } alt={ cardName } />
+          <span className="card-description" data-testid="description-card">
+            {cardDescription}
+          </span>
+          <section className="card-attributes-container">
+            <span className="card-attributes" data-testid="attr1-card">{cardAttr1}</span>
+            <span className="card-attributes" data-testid="attr2-card">{cardAttr2}</span>
+            <span className="card-attributes" data-testid="attr3-card">{cardAttr3}</span>
+          </section>
+          <span data-testid="rare-card">{cardRare}</span>
+          { cardTrunfo ? (
+            <span className="card-trunfo" data-testid="trunfo-card">
+              Super Trunfo
+            </span>) : '' }
         </section>
-        <span data-testid="rare-card">{cardRare}</span>
-        { cardTrunfo ? <span data-testid="trunfo-card">Super Trunfo</span> : '' }
         { deleteCard ? (
           <button
+            className="btn btn-danger"
             type="button"
             data-testid="delete-button"
             onClick={ deleteCard }

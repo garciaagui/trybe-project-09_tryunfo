@@ -28,14 +28,15 @@ class App extends React.Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
-      cardImage } = this.state;
+      cardImage,
+      cardCollection } = this.state;
 
     const minValue = 0;
     const maxValue = 90;
     const totalLimit = 210;
 
     const invalidationElements = [
-      !cardName.length,
+      (!cardName.length || cardCollection.some((card) => card.cardName === cardName)),
       !cardDescription.length,
       (cardAttr1 > maxValue || cardAttr1 < minValue || !cardAttr1),
       (cardAttr2 > maxValue || cardAttr2 < minValue || !cardAttr2),
@@ -83,12 +84,11 @@ class App extends React.Component {
     }));
   }
 
-  deleteCard = ({ target }) => {
-    const location = Array.from(target.parentElement.parentElement.children)
-      .indexOf(target.parentElement);
+  deleteCard = ({ cardName }) => {
+    const targetedCardName = cardName;
     this.setState((prevState) => ({
       cardCollection: [...prevState.cardCollection]
-        .filter((_, index) => index !== location),
+        .filter((card) => card.cardName !== targetedCardName),
     }), () => {
       const { cardCollection } = this.state;
       this.setState({
@@ -103,7 +103,7 @@ class App extends React.Component {
 
     if (cardTrunfo && !hasTrunfo) {
       this.setState({ hasTrunfo: true });
-    } else this.setState({ hasTrunfo: false });
+    }
 
     this.addCardToCollection();
 
@@ -135,24 +135,26 @@ class App extends React.Component {
     return (
       <div className="main-content">
         <h1>Tryunfo</h1>
-        <Form
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          hasTrunfo={ hasTrunfo }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          onInputChange={ this.onInputChange }
-          onSaveButtonClick={ this.onSaveButtonClick }
-        />
-        { isSaveButtonDisabled
-          ? <span style={ { color: 'red' } }>Preencha todos os campos</span>
-          : <span style={ { color: 'green' } }>Todos campos foram preenchidos</span> }
-        <section className="card-background">
+        <section className="form-container">
+          <Form
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+            hasTrunfo={ hasTrunfo }
+            isSaveButtonDisabled={ isSaveButtonDisabled }
+            onInputChange={ this.onInputChange }
+            onSaveButtonClick={ this.onSaveButtonClick }
+          />
+          { isSaveButtonDisabled
+            ? <span style={ { color: 'red' } }>Preencha todos os campos</span>
+            : <span style={ { color: 'green' } }>Todos campos foram preenchidos</span> }
+        </section>
+        <section className="card-creation-container">
           <Card
             cardName={ cardName }
             cardDescription={ cardDescription }
@@ -164,6 +166,7 @@ class App extends React.Component {
             cardTrunfo={ cardTrunfo }
           />
         </section>
+
         <section className="card-collection">
           {cardCollection ? (
             cardCollection.map((card, index) => (
@@ -177,7 +180,7 @@ class App extends React.Component {
                 cardImage={ card.cardImage }
                 cardRare={ card.cardRare }
                 cardTrunfo={ card.cardTrunfo }
-                deleteCard={ this.deleteCard }
+                deleteCard={ () => this.deleteCard(card) }
               />
             ))) : ''}
         </section>
