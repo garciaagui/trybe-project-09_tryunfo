@@ -22,6 +22,7 @@ class App extends React.Component {
       cardCollection: [],
       filterName: '',
       filterRarity: 'todas',
+      filterTrunfo: false,
     };
   }
 
@@ -123,6 +124,11 @@ class App extends React.Component {
     });
   }
 
+  filterByTrunfo = (array) => {
+    if (!array) return '';
+    return array.filter((card) => card.cardTrunfo === true);
+  }
+
   filterByName = (array) => {
     const { filterName } = this.state;
     if (!filterName.length) return array;
@@ -138,7 +144,10 @@ class App extends React.Component {
   }
 
   filterCollection = () => {
-    const { cardCollection, filterName, filterRarity } = this.state;
+    const { cardCollection, filterName, filterRarity, filterTrunfo } = this.state;
+    if (filterTrunfo) {
+      return this.filterByTrunfo(cardCollection);
+    }
     if (!filterName.length && filterRarity === 'todas') return cardCollection;
     const filtered1 = this.filterByName(cardCollection);
     const filtered2 = this.filterByRarity(filtered1);
@@ -158,7 +167,8 @@ class App extends React.Component {
       isSaveButtonDisabled,
       cardCollection,
       filterName,
-      filterRarity } = this.state;
+      filterRarity,
+      filterTrunfo } = this.state;
 
     return (
       <div className="main-content">
@@ -199,6 +209,7 @@ class App extends React.Component {
           onInputChange={ this.onInputChange }
           filterName={ filterName }
           filterRarity={ filterRarity }
+          filterTrunfo={ filterTrunfo }
         />
 
         <section className="card-collection">

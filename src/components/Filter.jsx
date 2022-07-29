@@ -6,7 +6,8 @@ class Filter extends Component {
     const {
       onInputChange,
       filterName,
-      filterRarity } = this.props;
+      filterRarity,
+      filterTrunfo } = this.props;
 
     return (
       <section className="container-filter">
@@ -15,6 +16,7 @@ class Filter extends Component {
         <label className="form-label" htmlFor="filterName">
           <input
             type="text"
+            disabled={ filterTrunfo }
             placeholder="Nome da carta"
             data-testid="name-filter"
             className="form-control"
@@ -26,6 +28,7 @@ class Filter extends Component {
 
         <label className="form-label" htmlFor="filterRarity">
           <select
+            disabled={ filterTrunfo }
             data-testid="rare-filter"
             className="form-select"
             name="filterRarity"
@@ -39,6 +42,18 @@ class Filter extends Component {
           </select>
         </label>
 
+        <label className="form-check-label" htmlFor="filterTrunfo">
+          <input
+            type="checkbox"
+            data-testid="trunfo-filter"
+            className="form-check-input"
+            name="filterTrunfo"
+            checked={ filterTrunfo }
+            onChange={ onInputChange }
+          />
+          Super Trunfo
+        </label>
+
       </section>
     );
   }
@@ -47,6 +62,9 @@ class Filter extends Component {
 Filter.propTypes = {
   onInputChange: PropTypes.func,
   filterName: PropTypes.string,
+  filterRarity: PropTypes.string,
+  filterTrunfo: PropTypes.bool,
+  filterBlock: PropTypes.bool,
 }.isRequired;
 
 export default Filter;
